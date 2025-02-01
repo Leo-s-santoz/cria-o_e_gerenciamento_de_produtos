@@ -1,4 +1,6 @@
 const express = require("express");
+const Sequelize = require("sequelize");
+const { Op } = Sequelize;
 const router = express.Router();
 router.use(express.json());
 const twilio = require("twilio");
@@ -118,7 +120,7 @@ router.post("/simulatePurchase", async (req, res) => {
 
 //check who bought at a higher price and send sms
 router.post("/sendSMS", async (req, res) => {
-  const { productCode } = req.body;
+  const { productCode, productName } = req.body;
 
   if (!productCode) {
     return res.status(400).json({ error: "missing information" });
@@ -162,7 +164,7 @@ router.post("/sendSMS", async (req, res) => {
         const formattedPhoneNumber = `+55${client.cli_celular}`;
 
         await twilioClient.messages.create({
-          body: `o preço do produto com código ${productCode} diminuiu para ${currentPrice}.`,
+          body: `o preço do produto ${productName} diminuiu para ${currentPrice}.`,
           from: twilioPhone,
           to: formattedPhoneNumber,
         });
