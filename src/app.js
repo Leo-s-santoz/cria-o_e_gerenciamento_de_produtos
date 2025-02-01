@@ -14,7 +14,7 @@ app.use("/", routes);
 app.use(express.json());
 
 //middleware ro serve stactic files
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/", express.static(path.join(__dirname + "/public")));
 
 //use the router
 app.use("/users", routes);
