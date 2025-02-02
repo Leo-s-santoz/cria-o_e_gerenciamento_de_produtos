@@ -236,6 +236,16 @@ router.post("/search_client_purchases", async (req, res) => {
 });
 
 //list all products
+router.get("/list_prod", async (req, res) => {
+  try {
+    const products = await Produto.findAll();
+
+    return res.status(200).json({ data: products });
+  } catch (error) {
+    console.error("Error listing products:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 //delete product
 router.delete("/delete_prod", async (req, res) => {

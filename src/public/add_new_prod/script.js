@@ -89,6 +89,35 @@ async function deleteProduct() {
   }
 }
 
+async function generateProductSheet() {
+  try {
+    const response = await fetch("/list_prod", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const products = data.data;
+
+      // Create a new workbook and add a worksheet
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(products);
+
+      // Append the worksheet to the workbook
+      XLSX.utils.book_append_sheet(wb, ws, "Produtos");
+
+      // Generate a file and trigger a download
+      XLSX.writeFile(wb, "produtos.xlsx");
+    }
+  } catch (error) {
+    console.error("error processing product:", error);
+    alert("Erro ao processar produto!");
+  }
+}
+
 //format currency
 // Jquery Dependency
 $("input[data-type='currency']").on({
