@@ -1,4 +1,3 @@
-//submit new product or update product
 async function submitProduct() {
   const code = form.code().value;
   const name = form.name().value;
@@ -35,7 +34,6 @@ async function submitProduct() {
   }
 }
 
-//check who bought at a higher price and send sms
 async function sendSMS(productCode, productName) {
   if (!productCode) {
     alert("Código do produto não encontrado!");
@@ -60,6 +58,34 @@ async function sendSMS(productCode, productName) {
   } catch (error) {
     console.error("error sending SMS:", error);
     alert("Erro ao enviar SMS!");
+  }
+}
+
+async function deleteProduct() {
+  const code = form.code().value;
+
+  if (!code) {
+    alert("É necessário informar o código do produto!");
+    return;
+  }
+
+  try {
+    const response = await fetch("/delete_prod", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code,
+      }),
+    });
+
+    if (response.status === 200) {
+      alert("Produto deletado com sucesso!");
+    }
+  } catch (error) {
+    console.error("error processing product:", error);
+    alert("Erro ao processar produto!");
   }
 }
 
@@ -145,14 +171,12 @@ function formatCurrency(input, blur) {
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
-//get form elements
 const form = {
   code: () => document.getElementById("productCode"),
   name: () => document.getElementById("productName"),
   price: () => document.getElementById("productPrice"),
 };
 
-//remove non numeric characters from code input
 const codeInput = form.code().addEventListener("input", function () {
   this.value = this.value.replace(/\D/g, "");
 });

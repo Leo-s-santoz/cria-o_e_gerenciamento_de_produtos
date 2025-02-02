@@ -238,5 +238,31 @@ router.post("/search_client_purchases", async (req, res) => {
 //list all products
 
 //delete product
+router.delete("/delete_prod", async (req, res) => {
+  const { code } = req.body;
+
+  if (!code) {
+    return res.status(400).json({ error: "missing information" });
+  }
+
+  try {
+    const product = await Produto.findOne({
+      where: {
+        prod_code: code,
+      },
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    await product.destroy();
+
+    return res.status(200).json({ message: "Product deleted" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 module.exports = router;
