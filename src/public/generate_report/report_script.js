@@ -1,3 +1,4 @@
+//search for client informations
 async function searchClient() {
   const searchContent = document.getElementById("search").value;
 
@@ -27,6 +28,7 @@ async function searchClient() {
   }
 }
 
+//search for purchases realised by the client
 async function searchClientPurchases(clientData) {
   const cli_id = clientData.data.cli_id;
 
@@ -65,6 +67,7 @@ async function searchClientPurchases(clientData) {
   }
 }
 
+//generate the pdf report
 async function generatePDF(client, purchases) {
   const { jsPDF } = window.jspdf;
 

@@ -1,3 +1,4 @@
+//add or update product
 async function submitProduct() {
   const code = form.code().value;
   const name = form.name().value;
@@ -34,6 +35,7 @@ async function submitProduct() {
   }
 }
 
+//send sms if a product is updated
 async function sendSMS(productCode, productName) {
   if (!productCode) {
     alert("Código do produto não encontrado!");
@@ -61,6 +63,7 @@ async function sendSMS(productCode, productName) {
   }
 }
 
+//delete product
 async function deleteProduct() {
   const code = form.code().value;
 
@@ -89,6 +92,7 @@ async function deleteProduct() {
   }
 }
 
+//generate a sheet with all products
 async function generateProductSheet() {
   try {
     const response = await fetch("/list_prod", {
@@ -200,12 +204,14 @@ function formatCurrency(input, blur) {
   input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
+//get elements from html
 const form = {
   code: () => document.getElementById("productCode"),
   name: () => document.getElementById("productName"),
   price: () => document.getElementById("productPrice"),
 };
 
+//delete non numeric characters from code input
 const codeInput = form.code().addEventListener("input", function () {
   this.value = this.value.replace(/\D/g, "");
 });

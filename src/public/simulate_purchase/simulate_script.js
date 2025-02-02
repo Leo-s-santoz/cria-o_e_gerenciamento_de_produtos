@@ -1,3 +1,4 @@
+//simulate a purchase to fill the database
 async function simulatePurchase() {
   const cli_id = document.getElementById("clientId").value;
   const productCode = document.getElementById("productCode").value;
