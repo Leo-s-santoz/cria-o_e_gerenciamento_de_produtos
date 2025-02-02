@@ -61,7 +61,7 @@ router.post("/submit_prod", async (req, res) => {
 });
 
 //simulate purchase
-router.post("/simulatePurchase", async (req, res) => {
+router.post("/simulate_purchase", async (req, res) => {
   const { cli_id, productCode, paymentOption } = req.body;
 
   if (!cli_id || !productCode || !paymentOption) {
@@ -119,7 +119,7 @@ router.post("/simulatePurchase", async (req, res) => {
 });
 
 //check who bought at a higher price and send sms
-router.post("/sendSMS", async (req, res) => {
+router.post("/send_sms", async (req, res) => {
   const { productCode, productName } = req.body;
 
   if (!productCode) {
@@ -177,5 +177,56 @@ router.post("/sendSMS", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//search client information
+router.post("/search_client", async (req, res) => {
+  const { searchContent } = req.body;
+
+  if (!searchContent) {
+    return res.status(400).json({ error: "missing information" });
+  }
+
+  try {
+    const client = await Cliente.findOne({
+      where: {
+        [Op.or]: [
+          { cli_razaosocial: { [Op.like]: `%${searchContent}%` } },
+          { cli_cnpj: { [Op.like]: `%${searchContent}%` } },
+        ],
+      },
+    });
+
+    return res.status(200).json({ data: client });
+  } catch (error) {
+    console.error("Error searching client:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//search client purchases
+router.post("/search_client_purchases", async (req, res) => {
+  const { cli_id } = req.body;
+
+  if (!cli_id) {
+    return res.status(400).json({ error: "missing information" });
+  }
+
+  try {
+    const purchases = await Compras.findAll({
+      where: {
+        cli_id,
+      },
+    });
+
+    return res.status(200).json({ data: purchases });
+  } catch (error) {
+    console.error("Error searching client purchases:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//list all products
+
+//delete product
 
 module.exports = router;

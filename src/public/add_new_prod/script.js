@@ -43,7 +43,7 @@ async function sendSMS(productCode, productName) {
   }
 
   try {
-    const response = await fetch("/sendSMS", {
+    const response = await fetch("/send_sms", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

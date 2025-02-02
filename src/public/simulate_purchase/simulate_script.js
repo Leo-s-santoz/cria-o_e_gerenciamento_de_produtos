@@ -8,7 +8,7 @@ async function simulatePurchase() {
   }
 
   try {
-    const response = await fetch("/simulatePurchase", {
+    const response = await fetch("/simulate_purchase", {
       method: "POST",
       headers: {
         "content-type": "application/json",
