@@ -35,6 +35,12 @@ const Compras = database.define(
       },
     },
 
+    prod_descricao: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: "prod_descricao",
+    },
+
     compra_preco: {
       type: DataTypes.FLOAT,
       allowNull: false,

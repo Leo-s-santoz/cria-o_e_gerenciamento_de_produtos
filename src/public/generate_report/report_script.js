@@ -1,7 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const { jsPDF } = window.jspdf;
-});
-
 async function searchClient() {
   const searchContent = document.getElementById("search").value;
 
@@ -89,15 +85,18 @@ async function generatePDF(client, purchases) {
   doc.setFontSize(12);
 
   purchases.forEach((purchase, index) => {
-    const y = 80 + index * 20;
+    const y = 80 + index * 40; //position adjustment in the doc
     const paymentOption =
       purchase.condpag_descricao === "0"
         ? "À vista"
         : `${purchase.condpag_descricao}x`;
 
     doc.text(`Produto: ${purchase.prod_id}`, 10, y);
-    doc.text(`Preço: R$ ${purchase.compra_preco.toFixed(2)}`, 10, y + 10);
-    doc.text(`Opção de Pagamento: ${paymentOption}`, 10, y + 20);
+    doc.text(`Produto: ${purchase.prod_descricao}`, 10, y + 10);
+    doc.text(`Preço: R$ ${purchase.compra_preco.toFixed(2)}`, 10, y + 20);
+    doc.text(`Opção de Pagamento: ${paymentOption}`, 10, y + 30);
+
+    doc.line(10, y + 30, 200, y + 30); //line separator
   });
 
   // Save the PDF

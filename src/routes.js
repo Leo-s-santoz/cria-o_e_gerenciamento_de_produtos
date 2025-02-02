@@ -96,6 +96,15 @@ router.post("/simulate_purchase", async (req, res) => {
       attributes: ["prod_preco"],
     });
 
+    const productDescription = await Produto.findOne({
+      where: {
+        prod_code: productCode,
+      },
+      attributes: ["prod_descricao"],
+    });
+
+    console.log(productDescription);
+
     if (!productPriceData) {
       return res.status(500).json({ error: "Error retrieving product price" });
     }
@@ -105,6 +114,7 @@ router.post("/simulate_purchase", async (req, res) => {
     const newPurchase = await Compras.create({
       cli_id: cli_id,
       prod_id: productCode,
+      prod_descricao: productDescription.prod_descricao,
       compra_preco: productPrice,
       condpag_descricao: paymentOption,
     });
